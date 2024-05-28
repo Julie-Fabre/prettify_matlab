@@ -25,23 +25,35 @@ yLim = ax.YLim;
 if nargin < 1 || isempty(xLength)
     xLength = roundToNearestTenPercent(diff(xLim));
 end
-if nargin < 2 || isempty(yLength)
-    yLength = roundToNearestTenPercent(diff(yLim));
-end
-if nargin < 3 || isempty(labelX)
-    if nargin < 6 || isempty(unitX)
+
+if (nargin < 1 || isempty(xLength)) && (nargin < 3 || isempty(labelX))
+    xLength = NaN;
+    labelX = 'NaN';
+elseif nargin < 1 || isempty(xLength)
+    xLength = roundToNearestTenPercent(diff(xLim));
+elseif nargin < 3 || isempty(labelX)
+     if nargin < 6 || isempty(unitX)
         labelX = sprintf('%.2f units', xLength);
     else
         labelX = sprintf('%.2f %s', xLength, unitX);
     end
 end
-if nargin < 4 || isempty(labelY)
+
+if (nargin < 2 || isempty(yLength)) && (nargin < 4 || isempty(labelY))
+    yLength = NaN;
+    labelY = 'NaN';
+elseif nargin < 2 || isempty(yLength)
+    yLength = roundToNearestTenPercent(diff(yLim));
+elseif nargin < 4 || isempty(labelY)
      if nargin < 7 || isempty(unitY)
         labelY = sprintf('%.2f units', yLength);
     else
         labelY = sprintf('%.2f %s', yLength, unitY);
     end
 end
+
+
+
 if nargin < 5 || isempty(position)
     position = 'topLeft';
 end
@@ -88,16 +100,28 @@ end
 
 % Plot scale bars and prevent them from being added to legend
 hold on;
+if ~isnan(yLength) && ~isnan(xLength) && xLength ~= 0 && yLength ~= 0
 h1 = plot([xBarStart, xBarEnd], [yBarStart, yBarStart], [thisColor '-'], ...
     'LineWidth', scaleLineWidth);
 h2 = plot([xBarStart, xBarStart], [yBarStart, yBarEnd], [thisColor '-'], ...
     'LineWidth', scaleLineWidth);
+elseif ~isnan(xLength) && xLength ~= 0
+    h1 = plot([xBarStart, xBarEnd], [yBarStart, yBarStart], [thisColor '-'], ...
+        'LineWidth', scaleLineWidth);
+else 
+  h2 = plot([xBarStart, xBarStart], [yBarStart, yBarEnd], [thisColor '-'], ...
+    'LineWidth', scaleLineWidth);
+
+end
 hold off;
 
 % Exclude scale bars from legend
+if ~isnan(xLength) && xLength ~= 0
 set(get(get(h1, 'Annotation'), 'LegendInformation'), 'IconDisplayStyle', 'off');
+end
+if ~isnan(yLength) && yLength ~= 0
 set(get(get(h2, 'Annotation'), 'LegendInformation'), 'IconDisplayStyle', 'off');
-
+end
 
 % Hide x and y axis
 ax.XAxis.Visible = 'off';
@@ -116,35 +140,51 @@ end
 
 switch position
     case 'bottomRight'
+        if ~isnan(xLength) && xLength ~= 0
         text((xBarStart + xBarEnd)/2, yBarStart-0.02*range(yLim)*sign(yLength), labelX, ...
             'HorizontalAlignment', textPos{1, 1}, 'VerticalAlignment', textPos{1, 2}, ...
             'Color', thisColor, 'FontSize', fontSize);
+        end
+        if ~isnan(yLength) && yLength ~= 0
         text(xBarStart+0.06*range(xLim)*sign(xLength), (yBarStart + yBarEnd)/2, labelY, ...
             'HorizontalAlignment', 'center', 'VerticalAlignment', 'middle', 'Rotation', 90, ...
             'Color', thisColor, 'FontSize', fontSize);
+        end
     case 'bottomLeft'
+        if ~isnan(xLength)&& xLength ~= 0
         text((xBarStart + xBarEnd)/2, yBarStart-0.02*range(yLim)*sign(yLength), labelX, ...
             'HorizontalAlignment', textPos{1, 1}, 'VerticalAlignment', textPos{1, 2}, ...
             'Color', thisColor, 'FontSize', fontSize);
+        end
+        if ~isnan(yLength) && yLength ~= 0
         text(xBarStart-0.05*range(xLim), (yBarStart + yBarEnd)/2, labelY, ...
             'HorizontalAlignment', 'center', 'VerticalAlignment', 'middle', 'Rotation', 90, ...
             'Color', thisColor, 'FontSize', fontSize);
+        end
 
     case 'topRight'
+        if ~isnan(xLength)&& xLength ~= 0
         text((xBarStart + xBarEnd)/2, yBarStart+0.03*range(yLim)*sign(yLength), labelX, ...
             'HorizontalAlignment', textPos{1, 1}, 'VerticalAlignment', textPos{1, 2}, ...
             'Color', thisColor, 'FontSize', fontSize);
+        end
+        if ~isnan(yLength) && yLength ~= 0
         text(xBarStart+0.06*range(xLim)*sign(xLength), (yBarStart + yBarEnd)/2, labelY, ...
             'HorizontalAlignment', 'center', 'VerticalAlignment', 'middle', 'Rotation', 90, ...
             'Color', thisColor, 'FontSize', fontSize);
+        end
 
     case 'topLeft'
+        if ~isnan(xLength)&& xLength ~= 0
         text((xBarStart + xBarEnd)/2, yBarStart+0.03*range(yLim)*sign(yLength), labelX, ...
             'HorizontalAlignment', textPos{1, 1}, 'VerticalAlignment', textPos{1, 2}, ...
             'Color', thisColor, 'FontSize', fontSize);
+        end
+        if ~isnan(yLength) && yLength ~= 0
         text(xBarStart-0.05*range(xLim), (yBarStart + yBarEnd)/2, labelY, ...
             'HorizontalAlignment', 'center', 'VerticalAlignment', 'middle', 'Rotation', 90, ...
             'Color', thisColor, 'FontSize', fontSize);
+        end
 end
 
 
