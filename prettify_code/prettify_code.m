@@ -169,15 +169,15 @@ function prettyCode = prettify_code(rawCode, xmlFile)
 
     if aroundOperators % add a space around operators, if there isn't one already
         operatorsPattern = '(?<!\s)(=|<|>|~|&|\||-|\+|\*|/|\^)';
-        specialCases = {'& &', '| |', '= =', '~ =', '\. /', '\. \', '. ^', '&  &', '|  |', '=  =', '~  =', '\.  /', '\.  \', '\.  ^'};
-        specialCases_replace = {'&&', '||', '==', '~=', '\./', '\.\', '.^','&&', '||', '==', '~=', '\./', '\.\', '.^'};
+        specialCases = {'& &', '| |', '= =', '~ =', '\. /', '\. \', '. ^', '&  &', '|  |', '=  =', '~  =', '\.  /', '\.  \', '\.  ^', '< =', '> ='};
+        specialCases_replace = {'&&', '||', '==', '~=', '\./', '\.\', '.^','&&', '||', '==', '~=', '\./', '\.\', '.^', '<=', '>='};
         prettyCode = regexprep(prettyCode, operatorsPattern, ' $1');
         for iLine = 1:length(specialCases)
             prettyCode = strrep(prettyCode, specialCases{iLine}, specialCases_replace{iLine});
         end
         operatorsPattern = '(=|<|>|~|&|\||-|\+|\*|/|\^)(?!\s)';
-        specialCases = {'& &', '| |', '= =', '~ =', '\. /', '\. \', '\. ^', '&  &', '|  |', '=  =', '~  =', '\.  /', '\.  \', '.  ^'};
-        specialCases_replace = {'&&', '||', '==', '~=', '\./', '\.\', '\.^','&&', '||', '==', '~=', '\./', '\.\', '\.^'};
+        specialCases = {'& &', '| |', '= =', '~ =', '\. /', '\. \', '\. ^', '&  &', '|  |', '=  =', '~  =', '\.  /', '\.  \', '.  ^', '< =', '> ='};
+        specialCases_replace = {'&&', '||', '==', '~=', '\./', '\.\', '\.^','&&', '||', '==', '~=', '\./', '\.\', '\.^', '<=', '>='};
         prettyCode = regexprep(prettyCode, operatorsPattern, '$1 ');
         for iLine = 1:length(specialCases)
             prettyCode = strrep(prettyCode, specialCases{iLine}, specialCases_replace{iLine});
