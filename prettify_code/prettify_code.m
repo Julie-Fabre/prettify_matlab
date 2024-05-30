@@ -72,6 +72,7 @@ function prettyCode = prettify_code(rawCode, xmlFile)
         
         % get line 
         thisLine = strtrim(codeLines{iLine});
+        disp(thisLine)
         
         % remove any leading or trailing white space
         thisLine = prettify_trim_white_space(thisLine);
@@ -85,16 +86,17 @@ function prettyCode = prettify_code(rawCode, xmlFile)
         else
             commentLine = false;
             % Detect if there's an inline comment
-            commentIdx = strfind(thisLine, '%');
+            %commentIdx = strfind(thisLine, '%'); -> this doesn't work well
+            %with e.g. sprintf('%d') type things. 
             
-            if ~isempty(commentIdx)
+            %if ~isempty(commentIdx)
                 % If there's a comment, split the line into code and comment
-                thisLine = strtrim(thisLine(1:commentIdx(1)-1));
-                commentPart = prettify_comments(thisLine(commentIdx(1):end));
-            else
+                %thisLine = strtrim(thisLine(1:commentIdx(1)-1));
+                %commentPart = prettify_comments(thisLine(commentIdx(1):end));
+            %else
                 thisLine = thisLine;
                 commentPart = '';
-            end
+            %end
 
             % split string if contains relevant keywords 
             [codeLines, thisLine] = prettify_split_lines(codeLines, thisLine, newLineBeforeKeywords, newLineAfterKeywords, iLine);
@@ -154,9 +156,8 @@ function prettyCode = prettify_code(rawCode, xmlFile)
             if any(startsWith(line, beforeKeywords)) && (iLine == 1 || ~isempty(lines{iLine-1}))
                 lines = [lines(1:iLine-1); ""; lines(iLine:end)];
                 iLine = iLine + 1;
+            end
         end
-        end
-        
         iLine = iLine + 1;
     end
 
