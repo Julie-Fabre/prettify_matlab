@@ -197,6 +197,9 @@ function prettyCode = prettify_code(rawCode, xmlFile)
     % Remove spaces around ( and )
     prettyCode = regexprep(prettyCode, '[ \t]*\([ \t]*', '(');
     prettyCode = regexprep(prettyCode, '[ \t]*\)', ')');
+    prettyCode = regexprep(prettyCode, '~[ \t]*', '~');
+
+    
     
     if afterComma % add a space after commas, if there isn't one already
         prettyCode = regexprep(prettyCode, '(?<!\s)(,)(?!\s)', ', ');
