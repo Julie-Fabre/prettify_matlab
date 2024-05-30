@@ -81,7 +81,7 @@ function prettyCode = prettify_code(rawCode, xmlFile)
             commentLine = true;
             % Extracting comment and ensuring the format is "% "
             rawComment = strtrim(thisLine);
-            thisLine = prettify_comments(rawComment);
+                thisLine = prettify_comments(rawComment);
         else
             commentLine = false;
             % Detect if there's an inline comment
@@ -110,7 +110,9 @@ function prettyCode = prettify_code(rawCode, xmlFile)
 
             % make the line ending pretty (add/remove commas and semicolons
             % as necessary)
-            thisLine = prettify_line_ending(thisLine, noPunctuationEnding, semicolonEnding);
+            if ~isempty(thisLine)
+                thisLine = prettify_line_ending(thisLine, noPunctuationEnding, semicolonEnding);
+            end
 
             if ~isempty(commentPart)
                 thisLine = [thisLine, ' ', commentPart];
