@@ -337,7 +337,10 @@ for iAx = 1:size(all_axes, 2)
 
         % adjust legend
         if ~isempty(currAx.Legend)
-            prettify_legend(currAx, options.LegendReplace, options.LegendLocation, options.LegendBox)
+            try
+                prettify_legend(currAx, options.LegendReplace, options.LegendLocation, options.LegendBox)
+            catch
+            end
         end
 
     end
