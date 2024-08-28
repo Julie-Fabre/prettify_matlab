@@ -199,6 +199,9 @@ else
 end
 
 % update axis limits
+if isempty(all_axes)
+    continue;
+end
 for iAx =  1:size(all_axes, 2)
     thisAx = all_axes(iAx);
     currAx = currFig_children(thisAx);
