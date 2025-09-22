@@ -310,7 +310,7 @@ for iAx = 1:size(all_axes, 2)
                 
             end
             % adjust markersize
-            if sum(get(thisPoint, 'Marker') == 'none') < 4
+            if strcmp(get(thisPoint, 'Marker'), 'none')
                 if thisPoint.SizeData < options.PointSize
                     set(thisPoint, 'SizeData', options.PointSize);
                 end

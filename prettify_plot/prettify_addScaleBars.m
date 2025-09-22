@@ -21,10 +21,6 @@ xLim = ax.XLim;
 yLim = ax.YLim;
 
 % Default values
-% Default values
-if nargin < 1 || isempty(xLength)
-    xLength = roundToNearestTenPercent(diff(xLim));
-end
 
 if (nargin < 1 || isempty(xLength)) && (nargin < 3 || isempty(labelX))
     xLength = NaN;
@@ -33,9 +29,11 @@ elseif nargin < 1 || isempty(xLength)
     xLength = roundToNearestTenPercent(diff(xLim));
 elseif nargin < 3 || isempty(labelX)
      if nargin < 6 || isempty(unitX)
-        labelX = sprintf('%.2f units', xLength);
+        %labelX = sprintf('%.2g units', xLength);
+        labelX = sprintf('%s %s', regexprep(sprintf('%.2f', xLength), '\.?0+$', ''));
     else
-        labelX = sprintf('%.2f %s', xLength, unitX);
+        %labelX = sprintf('%.2g %s', xLength, unitX);
+        labelX = sprintf('%s %s', regexprep(sprintf('%.2f', xLength), '\.?0+$', ''), unitX);
     end
 end
 
@@ -46,9 +44,11 @@ elseif nargin < 2 || isempty(yLength)
     yLength = roundToNearestTenPercent(diff(yLim));
 elseif nargin < 4 || isempty(labelY)
      if nargin < 7 || isempty(unitY)
-        labelY = sprintf('%.2f units', yLength);
+        %labelY = sprintf('%.2g units', yLength);
+        labelY = sprintf('%s %s', regexprep(sprintf('%.2f', yLength), '\.?0+$', ''));
     else
-        labelY = sprintf('%.2f %s', yLength, unitY);
+        %labelY = sprintf('%.2g %s', yLength, unitY);
+        labelY = sprintf('%s %s', regexprep(sprintf('%.2f', yLength), '\.?0+$', ''), unitY);
     end
 end
 
